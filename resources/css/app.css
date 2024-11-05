@@ -1,0 +1,121 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+.bg-custom-green {
+    background-color: #4caf50; /* Verde personalizado */
+}
+
+.text-custom-green {
+    color: #4caf50;
+}
+
+.bg-custom-light {
+    background-color: #f0f4c3; /* Fondo claro personalizado */
+}
+/* Cambia el fondo de la navegación y del header */
+nav,
+header {
+    background-color: #4caf50; /* Verde oscuro */
+    color: #ffffff; /* Texto blanco */
+}
+
+/* Botones y enlaces en la navegación */
+nav a,
+header a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+nav a:hover,
+header a:hover {
+    color: #f1f1f1; /* Color ligeramente más claro al pasar el mouse */
+}
+
+/* Fondo general del cuerpo de la página */
+body {
+    background-color: #f0f4c3; /* Un verde claro para el fondo general */
+    color: #333333; /* Texto oscuro para buen contraste */
+}
+
+/* Hero Section - cambiar el fondo */
+.hero-header {
+    background-color: #a5d6a7; /* Verde claro */
+}
+
+/* Botones y cuadros de texto */
+.btn-primary {
+    background-color: #81c784; /* Un verde para los botones */
+    border-color: #388e3c; /* Bordes verdes más oscuros */
+}
+
+.btn-primary:hover {
+    background-color: #66bb6a; /* Botón al pasar el mouse */
+}
+
+input.form-control {
+    border-color: #81c784; /* Bordes verdes en los campos de texto */
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: #388e3c; /* Controladores de carrusel con verde oscuro */
+}
+
+.footer {
+    background-color: #2e7d32; /* Verde oscuro para el pie de página */
+    color: #ffffff;
+}
+
+/* Cambia el fondo de la navegación y del header */
+nav,
+header {
+    background-color: #4caf50; /* Verde oscuro */
+    color: #ffffff; /* Texto blanco */
+}
+
+/* Botones y enlaces en la navegación */
+nav a,
+header a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+nav a:hover,
+header a:hover {
+    color: #f1f1f1; /* Color ligeramente más claro al pasar el mouse */
+}
+
+/* Fondo general del cuerpo de la página */
+body {
+    background-color: #f0f4c3; /* Un verde claro para el fondo general */
+    color: #333333; /* Texto oscuro para buen contraste */
+}
+
+/* Hero Section - cambiar el fondo */
+.hero-header {
+    background-color: #a5d6a7; /* Verde claro */
+}
+
+/* Botones y cuadros de texto */
+.btn-primary {
+    background-color: #81c784; /* Un verde para los botones */
+    border-color: #388e3c; /* Bordes verdes más oscuros */
+}
+
+.btn-primary:hover {
+    background-color: #66bb6a; /* Botón al pasar el mouse */
+}
+
+input.form-control {
+    border-color: #81c784; /* Bordes verdes en los campos de texto */
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: #388e3c; /* Controladores de carrusel con verde oscuro */
+}
+
+.footer {
+    background-color: #2e7d32; /* Verde oscuro para el pie de página */
+    color: #ffffff;
+}
