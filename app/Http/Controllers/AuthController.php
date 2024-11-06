@@ -1,5 +1,6 @@
 <?php
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
 use Auth;
@@ -10,9 +11,12 @@ class AuthController extends Controller
 {
     // Redirigir a Google
     public function redirectToGoogle()
-    {
-        return Socialite::driver('google')->redirect();
-    }
+{
+    return Socialite::driver('google')
+        ->scopes(['email'])
+        ->with(['prompt' => 'select_account']) // Esto asegura que el usuario seleccione una cuenta
+        ->redirect();
+}
     // Manejar la respuesta de Google
     public function handleGoogleCallback()
     {
