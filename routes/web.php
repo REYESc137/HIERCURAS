@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\FaceApiController;
 use App\Http\Controllers\Api\PlantasController;
 use App\Http\Controllers\Api\DescubridoresController;
 use App\Http\Controllers\Api\RecetasController;
@@ -114,5 +115,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+// Ruta para el registro de Face ID
+Route::post('/faceid/register', [FaceApiController::class, 'registerFaceId'])->name('faceid.register');
 
 require __DIR__ . '/auth.php';

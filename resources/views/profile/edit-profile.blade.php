@@ -18,6 +18,12 @@
 
         <div class="p-4 sm:p-8 bg-[#FAF0E6] shadow sm:rounded-lg"> <!-- Fondo blanco roto -->
             <div class="max-w-xl">
+                @include('profile.partials.create-faceid-form')
+            </div>
+        </div>
+
+        <div class="p-4 sm:p-8 bg-[#FAF0E6] shadow sm:rounded-lg"> <!-- Fondo blanco roto -->
+            <div class="max-w-xl">
                 @include('profile.partials.delete-user-form')
             </div>
         </div>
