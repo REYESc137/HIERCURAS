@@ -6,12 +6,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Storage;
 
 class FaceApiController extends Controller
 {
-    private $subscriptionKey = '7d4QLgYBSCgb4lL9kdGfWE1DEkaQ42AAOkXzLVffxGnVSu8GvsJQQJ99AKACYeBjFXJ3w3AAAKACOGPrjh'; // Tu clave de suscripción
-    private $endpoint = 'https://faceapiproyectohiercura.cognitiveservices.azure.com/face/v1.0/'; // Tu endpoint
+    private $apiKey = 'Ymmw51lWcs0GF1KPSyKgfXNgvRzKtqcc'; // Tu API Key de Face++
+    private $apiSecret = 'iUPfCXvZkKzVu9fmSBdzSRgMDjZzTwCv'; // Tu API Secret de Face++
+    private $facePlusPlusUrl = 'https://api-us.faceplusplus.com/facepp/v3/detect'; // Endpoint de Face++
 
     // Método para iniciar sesión con Face ID
     public function loginWithFaceId(Request $request)
@@ -22,39 +22,39 @@ class FaceApiController extends Controller
 
         $imageData = $request->input('image');
 
-        // Llama a la API de Azure para detectar la cara
-        $response = Http::withHeaders([
-            'Ocp-Apim-Subscription-Key' => $this->subscriptionKey,
-            'Content-Type' => 'application/json'
-        ])->post($this->endpoint . 'detect', [
-            'data' => base64_decode($imageData), // Se asume que se envía la imagen en formato Base64
-            'returnFaceId' => true,
+        // Llamada a la API de Face++ para detectar la cara
+        $response = Http::asForm()->post($this->facePlusPlusUrl, [
+            'api_key' => $this->apiKey,
+            'api_secret' => $this->apiSecret,
+            'image_base64' => $imageData,
         ]);
 
-        // Verifica la respuesta de la API
+        // Verificar la respuesta de la API
         if ($response->failed()) {
-            return response()->json(['success' => false, 'message' => 'Error en la detección facial.'], $response->status());
+            return view('error')->with('message', 'Error en la detección facial.');
         }
 
         $faceData = $response->json();
 
-        if (empty($faceData)) {
-            return response()->json(['success' => false, 'message' => 'No se detectó ninguna cara.'], 404);
+        if (empty($faceData['faces'])) {
+            return view('error')->with('message', 'No se detectó ninguna cara.');
         }
 
-        $faceId = $faceData[0]['faceId']; // Obtiene el ID de la cara detectada
+        // Obtener Face ID
+        $faceId = $faceData['faces'][0]['face_token']; // Face++ usa `face_token` en lugar de `faceId`
 
-        // Busca al usuario por su ID facial almacenado en la base de datos
+        // Busca al usuario por el face_token almacenado
         $user = User::where('id_facial', $faceId)->first();
 
         if (!$user) {
-            return response()->json(['success' => false, 'message' => 'Usuario no encontrado.'], 404);
+            return view('error')->with('message', 'Usuario no encontrado.');
         }
 
-        // Inicia sesión con el usuario
+        // Iniciar sesión con el usuario
         Auth::login($user);
 
-        return response()->json(['success' => true, 'message' => 'Inicio de sesión exitoso.']);
+        // Redirigir a la vista de perfil o la vista que desees
+        return view('profile.index'); // Aquí puedes poner la vista que prefieras
     }
 
     // Método para registrar un nuevo Face ID
@@ -66,67 +66,53 @@ class FaceApiController extends Controller
 
         $imageData = $request->input('image');
 
-        // Llama a la API de Azure para detectar la cara
-        $response = Http::withHeaders([
-            'Ocp-Apim-Subscription-Key' => $this->subscriptionKey,
-            'Content-Type' => 'application/json'
-        ])->post($this->endpoint . 'detect', [
-            'data' => base64_decode($imageData), // Se asume que se envía la imagen en formato Base64
-            'returnFaceId' => true,
+        // Llamada a la API de Face++ para detectar la cara
+        $response = Http::asForm()->post($this->facePlusPlusUrl, [
+            'api_key' => $this->apiKey,
+            'api_secret' => $this->apiSecret,
+            'image_base64' => $imageData,
         ]);
 
-        // Verifica la respuesta de la API
+        // Verificar la respuesta de la API
         if ($response->failed()) {
-            return response()->json(['success' => false, 'message' => 'Error en la detección facial.'], $response->status());
+            return view('error')->with('message', 'Error en la detección facial.');
         }
 
         $faceData = $response->json();
 
-        if (empty($faceData)) {
-            return response()->json(['success' => false, 'message' => 'No se detectó ninguna cara.'], 404);
+        if (empty($faceData['faces'])) {
+            return view('error')->with('message', 'No se detectó ninguna cara.');
         }
 
-        $faceId = $faceData[0]['faceId']; // Obtiene el ID de la cara detectada
+        // Obtener Face ID
+        $faceId = $faceData['faces'][0]['face_token'];
 
         // Asocia el Face ID al usuario autenticado
         $user = Auth::user();
+        if (!$user) {
+            return view('error')->with('message', 'Usuario no autenticado.');
+        }
+
         $user->id_facial = $faceId;
         $user->save();
 
-        return response()->json(['success' => true, 'message' => 'Face ID registrado exitosamente.']);
-    }
+        // Generar un nombre único para la imagen y guardarla en el servidor
+        $imageName = uniqid() . '.png';
+        $imageDataDecoded = base64_decode($imageData);
+        $imagePath = public_path('uploads/faceid_images/' . $imageName);
 
-    // Método para guardar la imagen en el servidor
-    public function storeImage(Request $request)
-    {
-        $request->validate([
-            'image' => 'required|string', // Asegúrate de que la imagen esté en formato Base64
+        // Crear el directorio si no existe
+        if (!file_exists(public_path('uploads/faceid_images'))) {
+            mkdir(public_path('uploads/faceid_images'), 0777, true);
+        }
+
+        // Guardar la imagen en el servidor
+        file_put_contents($imagePath, $imageDataDecoded);
+
+        // Redirigir a la vista con la imagen capturada y la URL de la imagen
+        return view('profile.edit-profile', [
+            'capturedImage' => asset('uploads/faceid_images/' . $imageName),
+            'user' => $user, // Pasa la variable $user a la vista
         ]);
-
-        $imageData = $request->input('image');
-
-        // Si la imagen está en formato Base64, quitar el prefijo
-        if (preg_match('/^data:image\/(\w+);base64,/', $imageData, $type)) {
-            $imageData = substr($imageData, strpos($imageData, ',') + 1);
-            $imageData = base64_decode($imageData);
-            if ($imageData === false) {
-                return response()->json(['success' => false, 'message' => 'Datos de imagen no válidos.'], 400);
-            }
-        } else {
-            return response()->json(['success' => false, 'message' => 'Formato de imagen no válido.'], 400);
-        }
-
-        $imageName = 'face_' . time() . '.jpg';
-        $path = 'assets/img/' . $imageName;
-
-        // Decodifica la imagen y la guarda en el directorio especificado
-        Storage::disk('public')->put($path, $imageData);
-
-        // Verificar si la imagen se guardó correctamente
-        if (Storage::disk('public')->exists($path)) {
-            return response()->json(['success' => true, 'message' => 'Imagen guardada exitosamente.', 'path' => $path]);
-        } else {
-            return response()->json(['success' => false, 'message' => 'Error al guardar la imagen.'], 500);
-        }
     }
 }
