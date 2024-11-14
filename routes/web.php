@@ -2,6 +2,7 @@
 use App\Http\Controllers\Api\PlantasController;
 use App\Http\Controllers\Api\DescubridoresController;
 use App\Http\Controllers\Api\RecetasController;
+use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\AuthController;
@@ -46,10 +47,40 @@ Route::prefix('admin')->group(function () {
     Route::delete('/recetas/{id}', [RecetasController::class, 'delete'])->name('recetas.delete');
 });
 
+Route::prefix('admin')->group(function () {
+    Route::get('/usuarios', [UserController::class, 'showUsers'])->name('admin.usuarios');
+    Route::post('/usuarios', [UserController::class, 'create'])->name('usuarios.create');
+    Route::patch('/usuarios/{id}', [UserController::class, 'update'])->name('usuarios.update');
+    Route::get('/usuarios/search', [UserController::class, 'search'])->name('usuarios.search');
+    Route::get('/usuarios/{id}', [UserController::class, 'show'])->name('usuarios.show');
+    Route::get('/usuarios/{id}/edit', [UserController::class, 'edit'])->name('usuarios.edit');
+    Route::delete('/usuarios/{id}', [UserController::class, 'delete'])->name('usuarios.delete');
+});
+
+
 /*----- Vistas públicas accesibles sin iniciar sesión -----*/
 Route::get('/plantas-medicinales', [PageController::class, 'plantasMedicinales'])->name('plantas.medicinales');
 Route::get('/descubridores', [PageController::class, 'descubridores'])->name('descubridores');
 Route::get('/metodos-elaboracion', [PageController::class, 'metodosElaboracion'])->name('metodos.elaboracion');
+use App\Http\Controllers\ComentariosCalificacionesController;
+
+// Ruta para mostrar el detalle de la receta
+Route::get('/detalle-receta/{id}', [ComentariosCalificacionesController::class, 'showDetalleReceta'])->name('detalle-recetas');
+
+// Rutas para comentarios
+Route::post('/comentarios', [ComentariosCalificacionesController::class, 'storeComentario'])->name('store-comentario');
+Route::put('/comentarios/{id}', [ComentariosCalificacionesController::class, 'updateComentario'])->name('update-comentario');
+Route::delete('/comentarios/{id}', [ComentariosCalificacionesController::class, 'deleteComentario'])->name('delete-comentario');
+
+Route::get('comentarios/{comentario}/edit', [ComentariosCalificacionesController::class, 'edit'])->name('edit-comentario');
+Route::put('comentarios/{comentario}', [ComentariosCalificacionesController::class, 'update'])->name('update-comentario');
+Route::delete('comentarios/{comentario}', [ComentariosCalificacionesController::class, 'destroy'])->name('delete-comentario');
+
+
+// Ruta para calificación
+Route::post('/calificacion', [ComentariosCalificacionesController::class, 'storeCalificacion'])->name('store-calificacion');
+
+
 
 /*----- Rutas de autenticación -----*/
 Route::post('/set-password', [AuthController::class, 'setPassword'])->name('set.password');
@@ -65,12 +96,6 @@ Route::middleware('auth')->group(function () {
             ? view('admin.index')
             : redirect('/dashboard')->with('error', 'No tienes acceso a esta página.');
     })->name('admin.index');
-
-    Route::get('/admin/usuarios', function () {
-        return Auth::user()->tipo_user_id == 1
-            ? view('admin.usuarios')
-            : redirect('/dashboard')->with('error', 'No tienes acceso a esta página.');
-    })->name('admin.usuarios');
 
     Route::get('/admin/profile', [ProfileController::class, 'editAdmin'])->name('admin.profile.edit');
     Route::patch('/admin/profile', [ProfileController::class, 'updateAdmin'])->name('admin.profile.update');

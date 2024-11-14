@@ -261,7 +261,9 @@
                             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                                     <div class="avatar avatar-online" style="border: 2px solid #66BB6A !important;">
-                                        <img src="{{ asset('assets/assets/img/avatars/1.png') }}" alt class="h-auto w-px-40 rounded-circle" />
+                                        <!-- Muestra la foto del usuario si existe, de lo contrario usa la foto predeterminada -->
+                                        <img src="{{ Auth::user()->foto ? asset('assets/img/users/' . Auth::user()->foto) : asset('assets/assets/img/avatars/1.png') }}"
+                                             alt="Avatar" class="h-auto w-px-40 rounded-circle" />
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" style="background-color: #1B5E20 !important;">
@@ -270,7 +272,9 @@
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0 me-3">
                                                     <div class="avatar avatar-online">
-                                                        <img src="{{ asset('assets/assets/img/avatars/1.png') }}" alt class="h-auto w-px-40 rounded-circle" />
+                                                        <!-- Verifica si el usuario tiene imagen, si no, usa la imagen por defecto -->
+                                                        <img src="{{ Auth::user()->foto ? asset('assets/img/users/' . Auth::user()->foto) : asset('assets/assets/img/avatars/1.png') }}"
+                                                             alt="Avatar" class="h-auto w-px-40 rounded-circle" />
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">
