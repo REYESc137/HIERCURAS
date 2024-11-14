@@ -28,5 +28,17 @@ class Recetas extends Model
     return $this->belongsTo(Plantas::class, 'planta_id');
 }
 
+public function calificaciones()
+{
+    return $this->hasMany(CalificacionReceta::class, 'receta_id');
+}
+
+public function comentarios()
+{
+    return $this->hasMany(ComentarioReceta::class, 'receta_id');
+}
+
+
+
 
 }
