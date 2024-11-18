@@ -3,6 +3,7 @@ use App\Http\Controllers\FaceApiController;
 use App\Http\Controllers\Api\PlantasController;
 use App\Http\Controllers\Api\DescubridoresController;
 use App\Http\Controllers\Api\RecetasController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PageController;
@@ -120,3 +121,8 @@ Route::middleware('auth')->group(function () {
 Route::post('/faceid/register', [FaceApiController::class, 'registerFaceId'])->name('faceid.register');
 
 require __DIR__ . '/auth.php';
+
+
+Route::post('pay', [PaymentController::class, 'pay'])->name('payment');
+Route::get('success', [PaymentController::class, 'success']);
+Route::get('error', [PaymentController::class, 'error']);

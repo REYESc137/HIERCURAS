@@ -31,6 +31,9 @@
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-[#6B8E23] hover:text-gray-200 transition ease-in-out duration-150">
+                            @if(Auth::user()->tipo_user_id == 3)
+                            <img src="{{ asset('assets/img/diamante.png')}}" alt="premium">
+                            @endif
                             <div>{{ Auth::user()->name }}</div>
 
                             <div class="ml-1">
