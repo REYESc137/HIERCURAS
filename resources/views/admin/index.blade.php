@@ -7,6 +7,16 @@
                 <div class="row g-4">
                     <div class="col-lg-12">
                         <div class="row g-4">
+                            <!-- Descripción de la sección de administración -->
+                        <div class="col-12 mb-5">
+                            <h3 class="text-center">Bienvenido al Panel de Administración</h3>
+                            <p class="text-muted text-center">
+                                En esta sección, podrás gestionar los distintos aspectos de la plataforma. 
+                                Aquí podrás administrar usuarios, plantas medicinales, descubridores y recetas. 
+                                Cada uno de estos módulos te permite agregar, editar y eliminar registros para mantener la información actualizada y organizada. 
+                                Simplemente selecciona la opción que desees para comenzar a gestionar el contenido.
+                            </p>
+                        </div>
                             <!-- Tarjeta de Usuarios -->
                             <div class="col-md-6 col-lg-4 col-xl-3">
                                 <div class="rounded position-relative fruite-item">

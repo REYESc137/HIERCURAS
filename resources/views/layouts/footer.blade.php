@@ -1,7 +1,3 @@
-@extends('layouts.app')
-
-@section('footer')
-
 <!-- Footer Section (tonos más suaves) -->
 <div class="pt-5 mt-5 container-fluid bg-[#8B4513] text-white-50 footer"> <!-- Marrón tierra para el footer -->
     <div class="container py-5">
@@ -43,4 +39,3 @@
         </div>
     </div>
 </div>
-@endsection

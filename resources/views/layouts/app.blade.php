@@ -27,6 +27,9 @@
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+        
+            
     </head>
     <body class="font-sans antialiased bg-gray-100">
         <div class="min-h-screen bg-gray-100">
@@ -52,7 +55,7 @@
             <header class="bg-[#6B8E23]"> <!-- Verde musgo -->
                 <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <h1 class="text-3xl font-bold text-white dark:text-gray-200">
-                        {{ __('Panel') }}
+                        {{ __('Bienvenido') }}
                     </h1>
                 </div>
             </header> <!-- Menú para usuarios no autenticados -->
@@ -69,12 +72,12 @@
                                 <h4 class="mb-3 text-secondary">Herbolaria Medicinal</h4>
                                 <h1 class="mb-5 text-[#6B8E23] display-3">Cuidando tu salud, <br> a lo natural.</h1>
                                 <div class="mx-auto position-relative">
-                                    <input class="px-4 py-3 border-2 form-control border-secondary w-75 rounded-pill" type="text"
-                                        placeholder="Buscar">
-                                    <button type="submit"
+                                    <input class="px-4 py-3 border-2 form-control border-secondary w-75 rounded-pill" type="text" disabled
+                                        placeholder="Busca lo que necesites">
+                                    {{-- <button type="submit"
                                         class="px-4 py-3 text-white border-2 btn bg-[#8B4513] border-[#6B8E23] position-absolute rounded-pill h-100"
                                         style="top: 0; right: 25%;"><i
-                                        class="text-white fas fa-search"></i></button>
+                                        class="text-white fas fa-search"></i></button> --}}
                                 </div>
                             </div>
                             <div class="col-md-12 col-lg-5">
@@ -105,6 +108,214 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="intro-container text-center py-5">
+                    <h1 class="text-primary mb-3">Bienvenido a Hiercura</h1>
+                    <p class="text-muted mb-4">
+                        Hiercura es una herbopedia digital donde podrás explorar una variedad de plantas medicinales, sus propiedades y recetas naturales para mejorar tu bienestar.
+                    </p>
+
+                    
+                    <p class="text-muted">
+                        Descubre cómo la naturaleza puede ayudarte a vivir de manera más saludable.
+                    </p>
+                    
+                    
+                </div>
+                
+                <style>
+                    .intro-container {
+                        padding: 50px 20px;
+                        max-width: 800px;
+                        margin: 0 auto;
+                        text-align: center;
+                    }
+                
+                    .intro-container h1 {
+                        font-size: 2rem;
+                        font-weight: 500;
+                        color: #1E2A47; /* Gris oscuro para un toque moderno */
+                    }
+                
+                    .intro-container p {
+                        font-size: 1rem;
+                        color: #6C757D; /* Gris suave para el texto */
+                        line-height: 1.5;
+                        margin: 0;
+                    }
+                </style>
+                
+
+                <center><h2 class="mb-4 text-[#6B8E23]">Revisa todas nuestra plantas</h2></center>
+                <div class="plantas-carousel-container">
+                    
+                        
+                    <div class="plantas-carousel-wrapper" id="plantasCarouselWrapper">
+                        <!-- Aquí se insertarán dinámicamente las tarjetas -->
+                    </div>
+                    <button class="plantas-carousel-control prev" onclick="prevSlide()">&#10094;</button>
+                    <button class="plantas-carousel-control next" onclick="nextSlide()">&#10095;</button>
+                </div>
+                
+                <!-- Estilos exclusivos para el carrusel -->
+                <style>
+                    .plantas-carousel-container {
+                        position: relative;
+                        max-width: 1200px;
+                        margin: 0 auto;
+                        overflow: hidden;
+                        background-color: #f8f9fa; /* Fondo claro */
+                        padding: 20px 0;
+                        border-radius: 15px;
+                        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+                    }
+                
+                    .plantas-carousel-wrapper {
+                        display: flex;
+                        gap: 20px;
+                        transition: transform 0.5s ease-in-out;
+                    }
+                
+                    .plantas-carousel-item {
+                        flex: 0 0 auto;
+                        width: 250px;
+                        text-align: center;
+                        background-color: white;
+                        border-radius: 15px;
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                        padding: 15px;
+                    }
+                
+                    .plantas-carousel-item img {
+                        width: 150px;
+                        height: 150px;
+                        object-fit: cover;
+                        border-radius: 50%;
+                        margin-bottom: 10px;
+                    }
+                
+                    .plantas-carousel-item h5 {
+                        font-size: 16px;
+                        font-weight: bold;
+                        color: #6b8e23; /* Verde musgo */
+                    }
+                
+                    .plantas-carousel-item a {
+                        display: inline-block;
+                        margin-top: 10px;
+                        padding: 5px 15px;
+                        background-color: #8b4513; /* Marrón */
+                        color: white;
+                        border-radius: 5px;
+                        text-decoration: none;
+                        font-size: 14px;
+                    }
+                
+                    .plantas-carousel-control {
+                        position: absolute;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        background-color: rgba(0, 0, 0, 0.5);
+                        color: white;
+                        border: none;
+                        border-radius: 50%;
+                        padding: 10px;
+                        cursor: pointer;
+                        z-index: 10;
+                        font-size: 20px;
+                    }
+                
+                    .plantas-carousel-control.prev {
+                        left: 10px;
+                    }
+                
+                    .plantas-carousel-control.next {
+                        right: 10px;
+                    }
+                
+                    .plantas-carousel-control:hover {
+                        background-color: rgba(0, 0, 0, 0.8);
+                    }
+                </style>
+                
+                <!-- Script para cargar datos dinámicamente y manejar el carrusel -->
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        fetch('/api/plantas')
+                            .then(response => response.json())
+                            .then(plantas => {
+                                const carouselWrapper = document.getElementById('plantasCarouselWrapper');
+                                let slides = '';
+                
+                                plantas.forEach(planta => {
+                                    slides += `
+                                        <div class="plantas-carousel-item">
+                                            <img 
+                                                src="${planta.foto ? '/assets/img/plantas/' + planta.foto : '/assets/img/Hiercura_logo.png'}" 
+                                                alt="${planta.nombre_comun}" 
+                                                onerror="this.src='/assets/img/Hiercura_logo.png'">
+                                            <h5>${planta.nombre_comun}</h5>
+                                            <a href="/plantas-medicinales">Ver Más</a>
+                                        </div>
+                                    `;
+                                });
+                
+                                carouselWrapper.innerHTML = slides;
+                            })
+                            .catch(error => console.error('Error al cargar las plantas:', error));
+                    });
+                
+                    // Funciones para controlar el carrusel
+                    let currentIndex = 0;
+                
+                    function nextSlide() {
+                        const wrapper = document.querySelector('.plantas-carousel-wrapper');
+                        const items = document.querySelectorAll('.plantas-carousel-item');
+                        const itemWidth = items[0].clientWidth + 20; // Ancho de cada tarjeta + margen
+                        currentIndex = (currentIndex + 1) % items.length;
+                        wrapper.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+                    }
+                
+                    function prevSlide() {
+                        const wrapper = document.querySelector('.plantas-carousel-wrapper');
+                        const items = document.querySelectorAll('.plantas-carousel-item');
+                        const itemWidth = items[0].clientWidth + 20; // Ancho de cada tarjeta + margen
+                        currentIndex = (currentIndex - 1 + items.length) % items.length;
+                        wrapper.style.transform = `translateX(-${currentIndex * itemWidth}px)`;
+                    }
+                </script>
+                
+                <div class="py-5 container-fluid">
+                    <div class="container text-center">
+                        <h2 class="mb-4 text-[#6B8E23]">Beneficios de la Medicina Herbolaria</h2>
+                        <p class="text-secondary">La medicina herbolaria no solo promueve un enfoque natural para cuidar la salud, sino que también fomenta la sostenibilidad al aprovechar los recursos naturales de manera responsable.</p>
+                        <div class="row mt-4 g-4">
+                            <div class="col-md-4">
+                                <div class="p-4 bg-white rounded">
+                                    <i class="text-[#6B8E23] fas fa-leaf fa-3x mb-3"></i>
+                                    <h5>Natural y Efectivo</h5>
+                                    <p>Remedios basados en plantas que ayudan a fortalecer el sistema inmunológico.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-4 bg-white rounded">
+                                    <i class="text-[#6B8E23] fas fa-heartbeat fa-3x mb-3"></i>
+                                    <h5>Salud Preventiva</h5>
+                                    <p>Enfocado en evitar enfermedades en lugar de tratarlas después.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="p-4 bg-white rounded">
+                                    <i class="text-[#6B8E23] fas fa-globe fa-3x mb-3"></i>
+                                    <h5>Eco-Amigable</h5>
+                                    <p>Contribuye a la sostenibilidad y preservación de recursos naturales.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                              
 
                 <!-- Features Section (colores naturales) -->
                 <div class="py-5 container-fluid featurs bg-[#FAF0E6]"> <!-- Fondo blanco roto -->
@@ -158,47 +369,10 @@
                     </div>
                 </div>
 
-                <!-- Footer Section (tonos más suaves) -->
-                <div class="pt-5 mt-5 container-fluid bg-[#8B4513] text-white-50 footer"> <!-- Marrón tierra para el footer -->
-                    <div class="container py-5">
-                        <div class="pb-4 mb-4" style="border-bottom: 1px solid rgba(226, 175, 24, 0.5) ;">
-                            <div class="row g-4">
-                                <div class="col-lg-3">
-                                    <a href="#">
-                                        <img src="{{ asset('assets/img/Hiercura_logo.png') }}" alt="Hiercura" width="70" height="70">
-                                        <h1 class="mb-0 text-white">Hiercura</h1>
-                                        <p class="mb-0 text-white-50">Cuidando tu salud, a lo natural</p>
-                                    </a>
-                                </div>
-                                <div class="col-lg-6">
-                                    @if (Auth::check() && Auth::user()->tipo_user_id != 3)
-                                    <form action="{{ route('payment')}}" method="post">
-                                        @csrf
-                                    <div class="mx-auto position-relative">
-                                        <input class="px-4 py-3 border-0 form-control w-100 rounded-pill" type="text" disabled
-                                            placeholder="Suscribete por $20 MXN al mes">
-                                            <input type="hidden" name="amount" value=20>
-                                        <button type="submit"
-                                            class="px-4 py-3 text-white border-0 btn btn-primary bg-[#6B8E23] position-absolute rounded-pill"
-                                            style="top: 0; right: 0;">Suscribirse</button>
-                                    </div>
-                                    </form>
-                                    @else
-                                    @if( !Auth::check() || Auth::user()->tipo_user_id != 3)
-                                    <div class="mx-auto position-relative">
-                                        <input class="px-4 py-3 border-0 form-control w-100 rounded-pill" type="text" disabled placeholder="Suscribete">
-                                        <a href="{{ route('login')}}" type="submit"
-                                            class="px-4 py-3 text-white border-0 btn btn-primary bg-[#6B8E23] position-absolute rounded-pill"
-                                            style="top: 0; right: 0;">Inicia  Sesión</a>
-                                    @endif
-                                    </div>
-                                    @endif
+                
+                
 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                @yield('footer')
             </main>
             </main>
         </div>
@@ -209,5 +383,9 @@
         <script src="{{ asset('assets/lib/easing/easing.min.js') }}"></script>
         <script src="{{ asset('assets/lib/owlcarousel/owl.carousel.min.js') }}"></script>
         <script src="{{ asset('assets/js/main.js') }}"></script>
+
+                
+        
+        
     </body>
 </html>

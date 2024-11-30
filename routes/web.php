@@ -16,6 +16,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// web.php
+Route::get('/api/plantas', [PlantasController::class, 'obtenerPlantas'])->name('api.plantas');
+
+
 /*----- Rutas para Descubridores -----*/
 Route::prefix('admin')->group(function () {
     Route::get('/descubridores', [DescubridoresController::class, 'showDiscoverers'])->name('admin.descubridores');

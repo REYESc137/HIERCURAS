@@ -31,6 +31,12 @@ class PlantasController extends Controller
     return response()->json($plantas, 200);
 }
 
+// PlantaController.php
+public function obtenerPlantas()
+{
+    $plantas = Plantas::all(); // O ajusta para que devuelva solo las que necesites
+    return response()->json($plantas);
+}
 
 
 public function showPlants()
